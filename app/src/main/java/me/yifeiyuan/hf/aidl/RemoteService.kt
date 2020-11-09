@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.os.Messenger
 import android.util.Log
 
 class RemoteService : Service() {
