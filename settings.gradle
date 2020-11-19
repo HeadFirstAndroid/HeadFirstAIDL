@@ -1,2 +1,4 @@
+include ':aidlmodule'
+include ':clientapp'
 include ':app'
 rootProject.name = "HeadFirstAIDL"
