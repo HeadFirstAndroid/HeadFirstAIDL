@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.yifeiyuan.hf.clientapp">
 
+<!--    <uses-permission android:name="me.yifeiyuan.hf.aidl.Server" />-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

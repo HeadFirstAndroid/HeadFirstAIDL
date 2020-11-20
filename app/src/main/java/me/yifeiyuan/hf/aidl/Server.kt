@@ -27,6 +27,15 @@ class Server : Service() {
 
 
     override fun onBind(intent: Intent): IBinder {
+        Log.d(TAG, "onBind() called with: intent = $intent")
         return server.asBinder()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d(
+            TAG,
+            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+        )
+        return super.onStartCommand(intent, flags, startId)
     }
 }
