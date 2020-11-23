@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getUserInfo(view: View) {
-
+        val account = remoteServer?.getAccountByName("")
+        Log.d(TAG, "getAccountByName account= $account")
     }
 
 
