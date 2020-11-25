@@ -6,14 +6,18 @@ import android.os.Parcelable
 /**
  * Created by 程序亦非猿 on 2020/11/20.
  */
-class Account(
-    var name: String?, var age: Int
+class Account @JvmOverloads constructor(
+    var name: String? = "default name", var age: Int = 1
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readInt()
     ) {
+    }
+
+    override fun toString(): String {
+        return "Account(name=$name, age=$age)" + super.toString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -25,6 +29,11 @@ class Account(
         return 0
     }
 
+    fun readFromParcel(reply: Parcel) {
+        name = reply.readString().toString()
+        age = reply.readInt()
+    }
+
     companion object CREATOR : Parcelable.Creator<Account> {
         override fun createFromParcel(parcel: Parcel): Account {
             return Account(parcel)
@@ -33,10 +42,6 @@ class Account(
         override fun newArray(size: Int): Array<Account?> {
             return arrayOfNulls(size)
         }
-    }
-
-    override fun toString(): String {
-        return "Account(name=$name, age=$age)"
     }
 
 }

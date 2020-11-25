@@ -15,7 +15,6 @@ class Server : Service() {
     private val server: IServer = object : IServer.Stub() {
 
         override fun connectServer(token: String?): Boolean {
-
             Log.d(TAG, "connectServer() called with: token = $token")
 
             if (token.equals("client")){
@@ -26,7 +25,9 @@ class Server : Service() {
         }
 
         override fun getAccountByName(name: String?): Account {
-            return Account("程序亦非猿",66)
+            return Account("程序亦非猿",66).also {
+                Log.d(TAG, "getAccountByName() called : $it")
+            }
         }
 
         override fun getAccounts(): MutableList<Account> {
@@ -34,6 +35,28 @@ class Server : Service() {
             val a2 = Account("程序亦非猿",66)
             return mutableListOf(a1, a2)
         }
+
+        override fun testIn(account: Account?) {
+            Log.d(TAG, "testIn() called with: account = $account")
+            account?.name = "testIn modified name"
+        }
+
+        override fun testOut(account: Account?) {
+            Log.d(TAG, "testOut() called with: account = $account")
+            account?.name = "testOut modified name"
+        }
+
+        override fun testInout(account: Account?) {
+            Log.d(TAG, "testInout() called with: account = $account")
+            account?.name = "testInout modified name"
+        }
+
+        override fun testOneway(account : Account) {
+            Log.d(TAG, "testOneway() called with: account = $account")
+            account?.name = "testOneway modified name"
+        }
+
+
     }
 
     override fun onBind(intent: Intent): IBinder {

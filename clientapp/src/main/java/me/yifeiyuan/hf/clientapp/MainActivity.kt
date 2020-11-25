@@ -3,13 +3,12 @@ package me.yifeiyuan.hf.clientapp
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.telecom.ConnectionService
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import me.yifeiyuan.aidl.server.Account
 import me.yifeiyuan.aidl.server.IServer
 
 class MainActivity : AppCompatActivity() {
@@ -48,15 +47,56 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "bindService: $result")
 
         val intent2 = Intent()
-        intent2.component = ComponentName("me.yifeiyuan.hf.aidl","me.yifeiyuan.hf.aidl.Server")
+        intent2.component = ComponentName("me.yifeiyuan.hf.aidl", "me.yifeiyuan.hf.aidl.Server")
         val result2 = bindService(intent2, connection, BIND_AUTO_CREATE)
         Log.d(TAG, "bindService: $result2")
 
     }
 
     fun getUserInfo(view: View) {
-        val account = remoteServer?.getAccountByName("")
+        val account = remoteServer.getAccountByName("")
         Log.d(TAG, "getAccountByName account= $account")
+    }
+
+    fun getAccounts(view: View) {
+        val accounts = remoteServer.accounts
+        Log.d(TAG, "accounts = $accounts")
+    }
+
+    fun testIn(view: View) {
+        val account = Account().apply {
+            name = "testIn"
+        }
+        Log.d(TAG, "testIn before= $account")
+        remoteServer.testIn(account)
+        Log.d(TAG, "testIn after= $account")
+    }
+
+    fun testOut(view: View) {
+        val account = Account().apply {
+            name = "testOut"
+        }
+        Log.d(TAG, "testOut before= $account")
+        remoteServer.testOut(account)
+        Log.d(TAG, "testOut after= $account")
+    }
+
+    fun testInout(view: View) {
+        val account = Account().apply {
+            name = "testInout"
+        }
+        Log.d(TAG, "testInout before= $account")
+        remoteServer.testInout(account)
+        Log.d(TAG, "testInout after= $account")
+    }
+
+    fun testOneway(view: View) {
+        val account = Account().apply {
+            name = "testOneway"
+        }
+        Log.d(TAG, "testOneway before= $account")
+        remoteServer.testOneway(account)
+        Log.d(TAG, "testOneway after= $account")
     }
 
 

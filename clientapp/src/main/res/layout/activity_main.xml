@@ -8,25 +8,73 @@
 
     <Button
         android:id="@+id/connect"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="绑定 Server"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:onClick="connectServer"
+        android:text="绑定 Server"
         android:textAllCaps="false"
-        />
-
-    <Button
-        android:text="调用 getUserInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/connect"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:onClick="getUserInfo"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/testAIDL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#7400BCD4"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connect">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="getUserInfo"
+            android:text="调用 getAccountByName"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="getAccounts"
+            android:text="调用 getAccounts"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="testIn"
+            android:text="调用 testIn"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="testOut"
+            android:text="调用 testOut"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="testInout"
+            android:text="调用 testInout"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="testOneway"
+            android:text="调用 testOneway"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
