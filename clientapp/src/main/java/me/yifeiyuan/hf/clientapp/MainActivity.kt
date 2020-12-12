@@ -4,7 +4,9 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.DeadObjectException
 import android.os.IBinder
+import android.os.RemoteException
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -29,14 +31,21 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "onServiceConnected() called with: name = $name, service = $service")
             remoteServer = IServer.Stub.asInterface(service)
 
-            var result = remoteServer.connectServer("client")
-            Log.d(TAG, "connectServer() result :$result")
+            try {
+                var result = remoteServer.connectServer("client")
+                Log.d(TAG, "connectServer() result :$result")
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            } catch (e: DeadObjectException) {
+                e.printStackTrace()
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             Log.d(TAG, "onServiceDisconnected() called with: name = $name")
         }
-
     }
 
     fun connectServer(view: View) {
@@ -54,8 +63,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getUserInfo(view: View) {
-        val account = remoteServer.getAccountByName("")
-        Log.d(TAG, "getAccountByName account= $account")
+        try {
+            val account = remoteServer.getAccountByName("")
+            Log.d(TAG, "getAccountByName account= $account")
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
     }
 
     fun getAccounts(view: View) {
@@ -97,7 +110,9 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "testOneway before= $account")
         remoteServer.testOneway(account)
         Log.d(TAG, "testOneway after= $account")
-    }
 
+        Thread.sleep(3000)
+        Log.d(TAG, "testOneway after 3000 = $account")
+    }
 
 }

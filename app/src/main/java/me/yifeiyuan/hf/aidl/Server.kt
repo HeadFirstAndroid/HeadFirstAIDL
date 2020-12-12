@@ -53,6 +53,7 @@ class Server : Service() {
 
         override fun testOneway(account : Account) {
             Log.d(TAG, "testOneway() called with: account = $account")
+            Thread.sleep(2000)
             account?.name = "testOneway modified name"
         }
 

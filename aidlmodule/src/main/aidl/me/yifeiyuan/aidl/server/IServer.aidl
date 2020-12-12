@@ -19,6 +19,11 @@ interface IServer {
     void testInout(inout Account account);
 
     //oneway 修饰的方法不能有返回值，否则会报错：oneway method 'testOneway' cannot return a value
+//    oneway Account testOneway();
+
     //oneway 还不能有 out的参数，oneway method 'testOneway' cannot have out parameters
+//    oneway void testOneway(out Account account);
+
     oneway void testOneway(in Account accunt);
+
 }
