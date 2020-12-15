@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TestMessengerActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="bindMessengerService"
+        android:text="绑定 MessengerService" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="sendMessageToServer"
+        android:text="向服务端发送简单消息" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="sendParcelableObjToServer"
+        android:text="向服务端发送一个 Parcelable 对象(Message.obj)" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="sendParcelableObjToServer2"
+        android:text="向服务端发送一个 Parcelable 对象(Message.data)" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="sendNonParcelableObjToServer"
+        android:text="向服务端发送一个非 Parcelable 对象" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="registerClientMessenger"
+        android:text="向服务端注册客户端的 Messenger " />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="24dp"
+        android:onClick="sendBackToClient"
+        android:text="双向通信测试" />
+
+</LinearLayout>

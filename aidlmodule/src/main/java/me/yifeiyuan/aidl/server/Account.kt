@@ -30,7 +30,7 @@ class Account @JvmOverloads constructor(
     }
 
     fun readFromParcel(reply: Parcel) {
-        name = reply.readString().toString()
+        name = reply.readString()
         age = reply.readInt()
     }
 

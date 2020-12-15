@@ -45,13 +45,13 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceDisconnected(name: ComponentName?) {
             Log.d(TAG, "onServiceDisconnected() called with: name = $name")
         }
-
     }
 
     fun bindService(view: View) {
-
         bindService(Intent(this, RemoteService::class.java), connection, BIND_AUTO_CREATE)
-
     }
 
+    fun testMessenger(view: View) {
+        startActivity(Intent(this, TestMessengerActivity::class.java))
+    }
 }

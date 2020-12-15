@@ -7,32 +7,35 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HeadFirstAIDL"
-        >
+        android:theme="@style/Theme.HeadFirstAIDL">
+        <activity android:name=".TestMessengerActivity"></activity>
 
         <service
-            android:name="me.yifeiyuan.hf.aidl.MyService"
+            android:name=".MyService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="me.yifeiyuan.hf.aidl.MyService" />
             </intent-filter>
         </service>
-
         <service
-            android:name="me.yifeiyuan.hf.aidl.Server"
+            android:name=".Server"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="me.yifeiyuan.hf.aidl.Server.Action" />
             </intent-filter>
         </service>
-
         <service
             android:name=".RemoteService"
             android:enabled="true"
             android:exported="false"
             android:process=":remote" />
+
+        <service
+            android:name=".MessengerService"
+            android:process=":messenger"
+            />
 
         <activity android:name=".MainActivity">
             <intent-filter>
