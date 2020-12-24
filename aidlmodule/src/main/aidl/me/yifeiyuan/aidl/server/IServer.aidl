@@ -1,6 +1,8 @@
 package me.yifeiyuan.aidl.server;
 
 import me.yifeiyuan.aidl.server.Account;
+import me.yifeiyuan.aidl.server.ParcelableTest;
+
 
 //对应的实现是 Server
 interface IServer {
@@ -25,5 +27,8 @@ interface IServer {
 //    oneway void testOneway(out Account account);
 
     oneway void testOneway(in Account accunt);
+
+    void testParcelable(in ParcelableTest test);
+
 
 }

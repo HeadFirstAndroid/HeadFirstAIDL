@@ -9,10 +9,16 @@ import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import me.yifeiyuan.aidl.server.Account
 import me.yifeiyuan.aidl.server.IServer
+import me.yifeiyuan.aidl.server.ParcelableTest
 
+/**
+ * AIDL 的客户端实现
+ * 测试 AIDL 接口
+ */
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "client_MainActivity"
@@ -34,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 var result = remoteServer.connectServer("client")
                 Log.d(TAG, "connectServer() result :$result")
+                Toast.makeText(this@MainActivity,"链接成功",Toast.LENGTH_SHORT).show()
             } catch (e: RemoteException) {
                 e.printStackTrace()
             } catch (e: DeadObjectException) {
@@ -66,6 +73,14 @@ class MainActivity : AppCompatActivity() {
         try {
             val account = remoteServer.getAccountByName("")
             Log.d(TAG, "getAccountByName account= $account")
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun testParcelable(view: View) {
+        try {
+            remoteServer.testParcelable(ParcelableTest(111, ParcelableTest::class.java))
         } catch (e: RemoteException) {
             e.printStackTrace()
         }

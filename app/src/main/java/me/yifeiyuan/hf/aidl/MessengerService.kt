@@ -48,10 +48,9 @@ class MessengerService : Service() {
         }
     }
 
-    private lateinit var messenger: Messenger
+    private var messenger: Messenger = Messenger(ServerHandler())
 
     override fun onBind(intent: Intent?): IBinder? {
-        messenger = Messenger(ServerHandler())
         return messenger.binder
     }
 

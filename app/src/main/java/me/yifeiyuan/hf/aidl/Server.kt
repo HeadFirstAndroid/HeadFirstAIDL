@@ -6,6 +6,7 @@ import android.os.IBinder
 import android.util.Log
 import me.yifeiyuan.aidl.server.Account
 import me.yifeiyuan.aidl.server.IServer
+import me.yifeiyuan.aidl.server.ParcelableTest
 
 //IServer 的服务端实现
 class Server : Service() {
@@ -55,6 +56,11 @@ class Server : Service() {
             Log.d(TAG, "testOneway() called with: account = $account")
             Thread.sleep(2000)
             account?.name = "testOneway modified name"
+        }
+
+        override fun testParcelable(test: ParcelableTest?) {
+            Log.d(TAG, "testParcelable() called with: test = $test")
+            val classV = test?.classValue;
         }
 
 
