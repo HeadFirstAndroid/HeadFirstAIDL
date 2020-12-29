@@ -1,4 +1,4 @@
-package me.yifeiyuan.hf.aidl
+package me.yifeiyuan.hf.aidl.messenger
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import me.yifeiyuan.aidl.server.Account
+import me.yifeiyuan.hf.aidl.R
 
 /**
  * 测试 Messenger
@@ -29,6 +30,12 @@ class TestMessengerActivity : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             Log.d(TAG, "handleMessage() called with: msg = $msg")
+
+            when (msg.what) {
+                1 -> {
+                    Log.d(TAG, "handleMessage: 收到来自服务端的信息 what=1")
+                }
+            }
         }
     }
 
@@ -146,7 +153,7 @@ class TestMessengerActivity : AppCompatActivity() {
      * at android.os.Message.writeToParcel(Message.java:639)
      * at android.os.IMessenger$Stub$Proxy.send(IMessenger.java:118)
      * at android.os.Messenger.send(Messenger.java:57)
-     * at me.yifeiyuan.hf.aidl.TestMessengerActivity.sendUnParcelableObjToServer(TestMessengerActivity.kt:98)
+     * at me.yifeiyuan.hf.aidl.messenger.TestMessengerActivity.sendUnParcelableObjToServer(TestMessengerActivity.kt:98)
      */
     fun sendNonParcelableObjToServer(view: View) {
         if (bound) {
@@ -165,8 +172,9 @@ class TestMessengerActivity : AppCompatActivity() {
      */
     fun registerClientMessenger(view: View) {
         if (bound) {
-            val msg = Message.obtain(null, 41)
-            msg.replyTo = clientMessenger
+            val msg = Message.obtain(null, 55).apply {
+                replyTo = clientMessenger
+            }
             try {
                 serverMessenger?.send(msg)
             } catch (e: RemoteException) {
@@ -180,7 +188,9 @@ class TestMessengerActivity : AppCompatActivity() {
      */
     fun sendBackToClient(view: View) {
         if (bound) {
-            val msg = Message.obtain(null, 42)
+            val msg = Message.obtain(null, 42).apply {
+                replyTo = clientMessenger
+            }
             try {
                 serverMessenger?.send(msg)
             } catch (e: RemoteException) {

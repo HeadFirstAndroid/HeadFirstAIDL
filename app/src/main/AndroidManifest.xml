@@ -8,7 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HeadFirstAIDL">
-        <activity android:name=".TestMessengerActivity"></activity>
+        <activity android:name=".messenger.TestMessengerActivity"></activity>
 
         <service
             android:name=".MyService"
@@ -33,7 +33,7 @@
             android:process=":remote" />
 
         <service
-            android:name=".MessengerService"
+            android:name=".messenger.MessengerService"
             android:process=":messenger"
             />
 
