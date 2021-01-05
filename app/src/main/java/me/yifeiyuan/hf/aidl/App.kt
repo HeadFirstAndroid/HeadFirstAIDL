@@ -9,10 +9,6 @@ class App : Application() {
 
     companion object {
         lateinit var app: Application
-
-        fun getInstance(): Application {
-            return app
-        }
     }
 
     override fun onCreate() {
