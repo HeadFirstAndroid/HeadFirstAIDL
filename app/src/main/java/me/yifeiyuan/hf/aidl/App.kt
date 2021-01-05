@@ -7,11 +7,11 @@ import android.app.Application
  */
 class App : Application() {
 
-    companion object{
-        var app: Application? = null
+    companion object {
+        lateinit var app: Application
 
-        fun getInstance():Application{
-            return app !!
+        fun getInstance(): Application {
+            return app
         }
     }
 

@@ -18,7 +18,7 @@ class Server : Service() {
         override fun connectServer(token: String?): Boolean {
             Log.d(TAG, "connectServer() called with: token = $token")
 
-            if (token.equals("client")){
+            if (token.equals("client")) {
                 return true
             }
 
@@ -26,14 +26,14 @@ class Server : Service() {
         }
 
         override fun getAccountByName(name: String?): Account {
-            return Account("程序亦非猿",66).also {
+            return Account("程序亦非猿", 66).also {
                 Log.d(TAG, "getAccountByName() called : $it")
             }
         }
 
         override fun getAccounts(): MutableList<Account> {
             val a1 = Account("Fitz", 1)
-            val a2 = Account("程序亦非猿",66)
+            val a2 = Account("程序亦非猿", 66)
             return mutableListOf(a1, a2)
         }
 
@@ -52,7 +52,7 @@ class Server : Service() {
             account?.name = "testInout modified name"
         }
 
-        override fun testOneway(account : Account) {
+        override fun testOneway(account: Account) {
             Log.d(TAG, "testOneway() called with: account = $account")
             Thread.sleep(2000)
             account?.name = "testOneway modified name"
@@ -62,8 +62,6 @@ class Server : Service() {
             Log.d(TAG, "testParcelable() called with: test = $test")
             val classV = test?.classValue;
         }
-
-
     }
 
     override fun onBind(intent: Intent): IBinder {
