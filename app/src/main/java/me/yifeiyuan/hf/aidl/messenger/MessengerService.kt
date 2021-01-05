@@ -4,7 +4,9 @@ import android.app.Service
 import android.content.Intent
 import android.os.*
 import android.util.Log
+import android.widget.Toast
 import me.yifeiyuan.aidl.server.Account
+import me.yifeiyuan.hf.aidl.App
 
 /**
  * Created by 程序亦非猿 on 2020/12/12.
@@ -19,16 +21,20 @@ class MessengerService : Service() {
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 Log.d(TAG, "MessengerService handleMessage() called with: msg = $msg")
+                Toast.makeText(App.app,"MessengerService handleMessage: 接受到信息：$msg",Toast.LENGTH_SHORT).show()
+
                 when (msg.what) {
 
                     1 -> {//客户端发送简单消息
+
                     }
 
                     2 -> {//客户端发送带对象的消息 msg.obj
                         val bundle = msg.obj as Bundle
-                        bundle.classLoader = Account::class.java.classLoader
+                        bundle.classLoader = Account::class.java.classLoader //Thread.currentThread().contextClassLoader App.javaClass.classLoader 也可以
                         val account = bundle.getParcelable<Account>("account")
                         Log.d(TAG, "MessengerService handleMessage: 接受到 Account 信息：$account")
+                        Toast.makeText(App.app,"MessengerService handleMessage: 接受到 Account 信息：$account",Toast.LENGTH_SHORT).show()
                     }
 
                     3 -> {//客户端发送带对象的消息 msg.data
@@ -36,13 +42,12 @@ class MessengerService : Service() {
                         bundle.classLoader = Account::class.java.classLoader
                         val account = bundle.getParcelable<Account>("account")
                         Log.d(TAG, "MessengerService handleMessage: 接受到 Account 信息：$account")
+                        Toast.makeText(App.app,"MessengerService handleMessage: 接受到 Account 信息：$account",Toast.LENGTH_SHORT).show()
                     }
 
                     41 -> {
 
                         val client = msg.replyTo
-
-
 
                     }
 
