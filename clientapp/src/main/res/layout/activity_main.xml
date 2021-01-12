@@ -83,6 +83,23 @@
             android:onClick="testOneway"
             android:text="调用 testOneway"
             android:textAllCaps="false" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="testThreadOnMainThread"
+            android:text="调用 testThreadOnMainThread"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A400BCD4"
+            android:onClick="testThreadOnAsyncThread"
+            android:text="调用 testThreadOnAsyncThread"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

@@ -62,6 +62,12 @@ class Server : Service() {
             Log.d(TAG, "testParcelable() called with: test = $test")
             val classV = test?.classValue;
         }
+
+        //D/Server: testThread() called with thread : Binder:3159_4
+        //D/Server: testThread() called with thread : Binder:3159_4
+        override fun testThread() {
+            Log.d(TAG, "testThread() called with thread : ${Thread.currentThread().name}")
+        }
     }
 
     override fun onBind(intent: Intent): IBinder {

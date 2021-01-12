@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
     }
 
     private lateinit var remoteServer: IServer
@@ -128,6 +127,16 @@ class MainActivity : AppCompatActivity() {
 
         Thread.sleep(3000)
         Log.d(TAG, "testOneway after 3000 = $account")
+    }
+
+    fun testThreadOnMainThread(v: View) {
+        remoteServer.testThread()
+    }
+
+    fun testThreadOnAsyncThread(v: View) {
+        Thread(){
+            remoteServer.testThread()
+        }.start()
     }
 
 }

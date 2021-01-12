@@ -30,5 +30,7 @@ interface IServer {
 
     void testParcelable(in ParcelableTest test);
 
+    //测试一下线程情况
+    void testThread();
 
 }
