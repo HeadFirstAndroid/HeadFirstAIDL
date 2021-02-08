@@ -129,10 +129,12 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "testOneway after 3000 = $account")
     }
 
+    //D/Server: testThread() called with thread : Binder:31793_1
     fun testThreadOnMainThread(v: View) {
         remoteServer.testThread()
     }
 
+    //D/Server: testThread() called with thread : Binder:31793_1
     fun testThreadOnAsyncThread(v: View) {
         Thread(){
             remoteServer.testThread()
