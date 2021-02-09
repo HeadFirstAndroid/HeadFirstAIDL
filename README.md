@@ -1,6 +1,6 @@
 # HeadFirstAIDL
 
-学一下 AIDL + Messenger + Binder
+虽然叫 HeadFirstAIDL ，但是实际上包含了 AIDL + Messenger + Binder 的学习内容。
 
 ## 工程结构
 
