@@ -1,19 +1,28 @@
 package me.yifeiyuan.hf.clientapp
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.DeadObjectException
-import android.os.IBinder
-import android.os.RemoteException
+import android.content.pm.PackageManager
+import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import me.yifeiyuan.aidl.server.Account
+import me.yifeiyuan.aidl.server.Callback
 import me.yifeiyuan.aidl.server.IServer
 import me.yifeiyuan.aidl.server.ParcelableTest
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import java.security.cert.Certificate
+import java.security.cert.CertificateEncodingException
+import java.security.cert.CertificateFactory
+
 
 /**
  * AIDL 的客户端实现
@@ -37,9 +46,43 @@ class MainActivity : AppCompatActivity() {
             remoteServer = IServer.Stub.asInterface(service)
 
             try {
-                var result = remoteServer.connectServer("client")
+                var result = remoteServer.connectServer("client", object : Callback.Stub() {
+                    override fun onTransact(
+                        code: Int,
+                        data: Parcel,
+                        reply: Parcel?,
+                        flags: Int
+                    ): Boolean {
+                        Log.d(
+                            TAG,
+                            "onTransact() called with calling info: ${Binder.getCallingPid()},${Binder.getCallingUid()},${Binder.getCallingUserHandle()},"
+                        )
+                        return super.onTransact(code, data, reply, flags)
+                    }
+
+                    override fun onCallback(data: String?) {
+                        Log.d(
+                            TAG,
+                            "onCallback() called with calling info: ${Binder.getCallingPid()},${Binder.getCallingUid()},${Binder.getCallingUserHandle()},"
+                        )
+
+                        Log.d(
+                            TAG,
+                            "onCallback() called with my info: ${Process.myPid()},${Process.myUid()},${Process.myTid()},"
+                        )
+                        //me.yifeiyuan.hf.aidl
+                        val targetPkg = getPackageNameByUid(Binder.getCallingUid())
+                        Log.d(
+                            TAG,
+                            "onCallback() called with calling getPackagesForUid: ${targetPkg},"
+                        )
+
+                        val fingerprint = getFingerprint(this@MainActivity, targetPkg ?: "")
+                        Log.d(TAG, "onCallback() called with calling fingerprint: ${fingerprint},")
+                    }
+                })
                 Log.d(TAG, "connectServer() result :$result")
-                Toast.makeText(this@MainActivity,"链接成功",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "链接成功", Toast.LENGTH_SHORT).show()
             } catch (e: RemoteException) {
                 e.printStackTrace()
             } catch (e: DeadObjectException) {
@@ -54,18 +97,103 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun PackageManager.getPackageNameByUid(uid: Int = Binder.getCallingUid()): String {
+        return getPackagesForUid(uid)?.get(0) ?: getNameForUid(uid) ?: ""
+    }
+
+    fun Context.getPackageNameByUid(uid: Int = Binder.getCallingUid()): String {
+        return packageManager.getPackageNameByUid(uid)
+    }
+
+    /**
+     * 获取目标应用的签名指纹
+     *
+     * @param aContext Context
+     * @param aPkgName 目标应用的包名
+     * @return 签名指纹
+     */
+    fun getFingerprint(aContext: Context, aPkgName: String): String? {
+        val cert: Certificate? = getCertificate(aContext, aPkgName)
+        var fingerprint: String? = null
+        try {
+            if (cert != null) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA-1")
+//                val md: MessageDigest = MessageDigest.getInstance("SHA-256")
+//                val md: MessageDigest = MessageDigest.getInstance("MD5")
+                md.update(cert.getEncoded())
+                fingerprint = toHexString(md.digest(), false)
+            }
+        } catch (aE: NoSuchAlgorithmException) {
+            aE.printStackTrace()
+        } catch (aE: CertificateEncodingException) {
+            aE.printStackTrace()
+        }
+        return fingerprint
+    }
+
+    private fun getCertificate(aContext: Context, aPkgName: String): Certificate? {
+        val pm = aContext.packageManager
+        var bais: ByteArrayInputStream? = null
+        try {
+            @SuppressLint("PackageManagerGetSignatures") val pi =
+                pm.getPackageInfo(aPkgName, PackageManager.GET_SIGNATURES)
+            bais = ByteArrayInputStream(pi.signatures[0].toByteArray())
+            val cf: CertificateFactory = CertificateFactory.getInstance("X.509")
+            return cf.generateCertificate(bais)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        } finally {
+            if (null != bais) {
+                try {
+                    bais.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        return null
+    }
+
+
+    /**
+     * 转换为十六进制字符数据
+     *
+     * @param aBytes     待处理的数据
+     * @param aUpperCase 输出是否大写
+     * @return 十六进制字符数据
+     */
+    fun toHexString(aBytes: ByteArray, aUpperCase: Boolean): String? {
+        val hexString = StringBuilder()
+        for (b in aBytes) {
+            var str = Integer.toHexString(0xFF and b.toInt())
+            if (aUpperCase) {
+                str = str.toUpperCase()
+            }
+            if (str.length == 1) {
+                hexString.append("0")
+            }
+            hexString.append(str)
+        }
+        return hexString.toString()
+    }
+
     fun connectServer(view: View) {
 
+//        val intent = Intent("me.yifeiyuan.hf.aidl.Server.Action")
         val intent = Intent("me.yifeiyuan.hf.aidl.Server.Action")
         intent.setPackage("me.yifeiyuan.hf.aidl")
         val result = bindService(intent, connection, BIND_AUTO_CREATE)
         Log.d(TAG, "bindService: $result")
 
-        val intent2 = Intent()
-        intent2.component = ComponentName("me.yifeiyuan.hf.aidl", "me.yifeiyuan.hf.aidl.Server")
-        val result2 = bindService(intent2, connection, BIND_AUTO_CREATE)
-        Log.d(TAG, "bindService: $result2")
+//        val intent2 = Intent()
+//        intent2.component = ComponentName("me.yifeiyuan.hf.aidl", "me.yifeiyuan.hf.aidl.Server")
+//        val result2 = bindService(intent2, connection, BIND_AUTO_CREATE)
+//        Log.d(TAG, "bindService by ComponentName: $result2")
+    }
 
+    fun disconnectServer(view: View) {
+        unbindService(connection)
+        Log.d(TAG, "disconnectServer")
     }
 
     fun getUserInfo(view: View) {
@@ -136,7 +264,7 @@ class MainActivity : AppCompatActivity() {
 
     //D/Server: testThread() called with thread : Binder:31793_1
     fun testThreadOnAsyncThread(v: View) {
-        Thread(){
+        Thread() {
             remoteServer.testThread()
         }.start()
     }

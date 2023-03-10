@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.yifeiyuan.hf.aidl">
 
+    <permission
+        android:name="com.taobao.taobao.storage.WRITE"
+        android:protectionLevel="normal"
+        />
+    <uses-permission android:name="com.taobao.taobao.storage.WRITE" />
+
+<!--    <permission-->
+<!--        android:name="com.taobao.taobao.ACCESS_STORAGE"-->
+<!--        android:protectionLevel="normal" />-->
+
+<!--    <uses-permission android:name="com.taobao.taobao.ACCESS_STORAGE" />-->
+
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +26,8 @@
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="me.yifeiyuan.hf.aidl.MyService" />
             </intent-filter>
@@ -22,7 +35,10 @@
         <service
             android:name=".Server"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:process=":server"
+            >
+<!--            android:permission="com.taobao.taobao.storage.WRITE"-->
             <intent-filter>
                 <action android:name="me.yifeiyuan.hf.aidl.Server.Action" />
             </intent-filter>

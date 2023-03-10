@@ -4,6 +4,10 @@
 
 <!--    <uses-permission android:name="me.yifeiyuan.hf.aidl.Server" />-->
 
+    <uses-permission android:name="com.taobao.taobao.storage.WRITE" />
+
+<!--    <uses-permission android:name="com.taobao.taobao.ACCESS_STORAGE" />-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

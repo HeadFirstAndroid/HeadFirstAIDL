@@ -49,7 +49,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun bindService(view: View) {
-        bindService(Intent(this, RemoteService::class.java), connection, BIND_AUTO_CREATE)
+        val result =
+            bindService(Intent(this, RemoteService::class.java), connection, BIND_AUTO_CREATE)
+
+        Log.d(TAG, "bindService: $result")
     }
 
     fun testMessenger(view: View) {

@@ -2,12 +2,12 @@ package me.yifeiyuan.aidl.server;
 
 import me.yifeiyuan.aidl.server.Account;
 import me.yifeiyuan.aidl.server.ParcelableTest;
-
+import me.yifeiyuan.aidl.server.Callback;
 
 //对应的实现是 Server
 interface IServer {
 
-    boolean connectServer(String token);
+    boolean connectServer(String token,Callback cb);
 
     Account getAccountByName(String name);
 
