@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                 val md: MessageDigest = MessageDigest.getInstance("SHA-1")
 //                val md: MessageDigest = MessageDigest.getInstance("SHA-256")
 //                val md: MessageDigest = MessageDigest.getInstance("MD5")
+//                md.reset()
                 md.update(cert.getEncoded())
                 fingerprint = toHexString(md.digest(), false)
             }
@@ -162,7 +163,7 @@ class MainActivity : AppCompatActivity() {
      * @param aUpperCase 输出是否大写
      * @return 十六进制字符数据
      */
-    fun toHexString(aBytes: ByteArray, aUpperCase: Boolean): String? {
+    fun toHexString(aBytes: ByteArray, aUpperCase: Boolean): String {
         val hexString = StringBuilder()
         for (b in aBytes) {
             var str = Integer.toHexString(0xFF and b.toInt())
