@@ -58,4 +58,8 @@ class MainActivity : AppCompatActivity() {
     fun testMessenger(view: View) {
         startActivity(Intent(this, TestMessengerActivity::class.java))
     }
+
+    override fun onResume() {
+        super.onResume()
+    }
 }
